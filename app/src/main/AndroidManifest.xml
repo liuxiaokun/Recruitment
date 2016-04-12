@@ -20,6 +20,7 @@
 
         <activity android:name=".MainActivity"/>
         <activity android:name=".ExitActivity"/>
+        <activity android:name=".WelcomeActivity"/>
     </application>
 
 </manifest>

@@ -83,6 +83,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 dismissLoading();
                 ToastUtil.shortShow(LoginActivity.this, "登录成功!");
+
+                Intent intent = new Intent(LoginActivity.this, WelcomeActivity.class);
+                startActivity(intent);
             }
 
             /**
