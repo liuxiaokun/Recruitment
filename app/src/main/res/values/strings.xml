@@ -6,4 +6,6 @@
     <string name="password">密码</string>
     <string name="login">登录</string>
     <string name="submit_data">提交数据</string>
+    <string name="exit">退出</string>
+    <string name="submit_success">数据提交成功!</string>
 </resources>

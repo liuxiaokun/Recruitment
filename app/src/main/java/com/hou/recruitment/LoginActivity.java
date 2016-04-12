@@ -1,5 +1,6 @@
 package com.hou.recruitment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -21,6 +22,7 @@ import cz.msebera.android.httpclient.Header;
 public class LoginActivity extends BaseActivity implements View.OnClickListener{
 
     private Button mBtnLogin;
+    private Button mBtnSubmitData;
     private EditText mEditUserName;
     private EditText mEditPassword;
 
@@ -31,6 +33,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
 
         mBtnLogin = (Button) findViewById(R.id.login);
         mBtnLogin.setOnClickListener(this);
+
+        mBtnSubmitData = (Button) findViewById(R.id.submit_data);
+        mBtnSubmitData.setOnClickListener(this);
 
         mEditUserName = (EditText) findViewById(R.id.user_name);
         mEditPassword = (EditText) findViewById(R.id.password);
@@ -94,8 +99,18 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
                 ToastUtil.shortShow(LoginActivity.this, "登录失败!");
             }
         });
-
     }
+
+    private void submit() {
+
+
+
+
+
+        Intent intent  = new Intent(this, ExitActivity.class);
+        startActivity(intent);
+    }
+
     /**
      * Called when a view has been clicked.
      *
@@ -112,6 +127,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
                 login();
                 break;
 
+            case R.id.submit_data:
+
+                submit();
+                break;
             default:
                 break;
         }
