@@ -1,8 +1,11 @@
 package com.hou.recruitment;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
+
+import com.hou.recruitment.utils.ProgressDialogHelper;
 
 /**
  * @author Fred Liu(liuxiaokun0410@gmail.com)
@@ -40,4 +43,16 @@ public class BaseActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
+
+
+
+    protected void showLoading(String title, boolean isCancelable,
+                               DialogInterface.OnCancelListener listener) {
+        ProgressDialogHelper.show(BaseActivity.this, title, isCancelable, listener);
+    }
+
+    protected void dismissLoading() {
+        ProgressDialogHelper.dismiss();
+    }
+
 }

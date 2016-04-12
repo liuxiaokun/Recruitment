@@ -42,6 +42,6 @@ public class ResClient {
 
     public static void login(RequestParams params,
                              AsyncHttpResponseHandler handler) {
-        post(params, Constant.LOGIN_URL, handler);
+        get(params, Constant.LOGIN_URL, handler);
     }
 }

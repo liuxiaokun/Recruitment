@@ -7,5 +7,5 @@ package com.hou.recruitment.common;
  */
 public class Constant {
 
-    public static final String LOGIN_URL = "";
+    public static final String LOGIN_URL = "http://super.lvmama.com/vst_passport/deviceVersionCallBack/getCurrentTime.do";
 }
