@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Recruitment</string>
+    <string name="title_line_one">华东师范大学艺术招生考试</string>
+    <string name="title_line_two">评分系统</string>
+    <string name="user_name">用户名</string>
+    <string name="password">密码</string>
+    <string name="login">登录</string>
+    <string name="submit_data">提交数据</string>
 </resources>
