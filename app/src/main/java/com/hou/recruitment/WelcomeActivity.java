@@ -1,5 +1,6 @@
 package com.hou.recruitment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -77,6 +78,8 @@ public class WelcomeActivity extends BaseActivity implements View.OnClickListene
 
     private void start() {
 
+        Intent intent = new Intent(WelcomeActivity.this, ExamActivity.class);
+        startActivity(intent);
     }
     class MyCountDownTimer extends CountDownTimer {
 

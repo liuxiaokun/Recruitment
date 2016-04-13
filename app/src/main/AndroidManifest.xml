@@ -21,6 +21,8 @@
         <activity android:name=".MainActivity"/>
         <activity android:name=".ExitActivity"/>
         <activity android:name=".WelcomeActivity"/>
+        <activity android:name=".ScoreListActivity"/>
+        <activity android:name=".ExamActivity"/>
     </application>
 
 </manifest>

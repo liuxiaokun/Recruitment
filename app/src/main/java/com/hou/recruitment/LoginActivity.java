@@ -110,7 +110,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
 
 
 
-        Intent intent  = new Intent(this, ExitActivity.class);
+        Intent intent  = new Intent(this, ScoreListActivity.class);
         startActivity(intent);
     }
 
