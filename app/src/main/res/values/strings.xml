@@ -8,10 +8,15 @@
     <string name="submit_data">提交数据</string>
     <string name="exit">退出</string>
     <string name="submit_success">数据提交成功!</string>
-    <string name="welcome">你好, </string>
+    <string name="welcome">您好, </string>
     <string name="address_name">考点:</string>
     <string name="address_no">考场号:  </string>
     <string name="subject">考试科目: </string>
     <string name="start">开始评分</string>
+    <string name="submit">提交</string>
     <string name="welcome_enter_system">欢迎进入评分系统</string>
+    <string name="exam_no">考号: </string>
+    <string name="examinee_name">考生姓名: </string>
+    <string name="first_score">印象分</string>
+    <string name="final_score">最终分</string>
 </resources>
