@@ -38,6 +38,7 @@
 
 
             <TextView
+                android:id="@+id/student_id"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:gravity="center"
@@ -45,6 +46,7 @@
                 android:textSize="18sp"/>
 
             <TextView
+                android:id="@+id/student_name"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:gravity="center"
@@ -70,15 +72,17 @@
         android:layout_below="@id/line"
         android:layout_marginBottom="20dp"
         android:hint="@string/first_score"
+        android:inputType="number"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"/>
 
     <EditText
-        android:id="@+id/final_socre"
+        android:id="@+id/final_score"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/first_score"
         android:hint="@string/final_score"
+        android:inputType="number"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"/>
 

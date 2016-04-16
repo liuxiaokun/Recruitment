@@ -6,9 +6,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.gson.Gson;
 import com.hou.recruitment.utils.AppUtil;
 import com.hou.recruitment.utils.ResClient;
 import com.hou.recruitment.utils.ToastUtil;
+import com.hou.recruitment.vo.LoginResponse;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
@@ -61,7 +63,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
         RequestParams requestParams = new RequestParams();
         requestParams.add("user", userName);
         requestParams.add("pass", AppUtil.md5(password));
-        ResClient.login(requestParams, new AsyncHttpResponseHandler(){
+        ResClient.login(requestParams, userName, new AsyncHttpResponseHandler(){
 
             /**
              * Fired when the request is started, override to handle in your own code
@@ -82,10 +84,37 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 dismissLoading();
-                ToastUtil.shortShow(LoginActivity.this, "登录成功!");
 
-                Intent intent = new Intent(LoginActivity.this, WelcomeActivity.class);
-                startActivity(intent);
+                String resp = new String(responseBody);
+
+                Gson gson = new Gson();
+                LoginResponse loginResponse = gson.fromJson(resp, LoginResponse.class);
+
+                String password = loginResponse.getExpert().getPassword();
+
+
+                if (AppUtil.isNotEmpty(password)) {
+
+                    if (password.equals(loginResponse.getExpert().getPassword())) {
+
+                        ToastUtil.shortShow(LoginActivity.this, "登录成功!");
+
+                        Intent intent = new Intent(LoginActivity.this, WelcomeActivity.class);
+
+
+                        Bundle mBundle = new Bundle();
+                        mBundle.putSerializable("data",loginResponse);
+                        intent.putExtras(mBundle);
+
+                        startActivity(intent);
+                        finish();
+
+                    } else {
+                        ToastUtil.shortShow(LoginActivity.this, "密码错误!");
+
+                    }
+                }
+
             }
 
             /**

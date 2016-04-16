@@ -22,4 +22,5 @@
     <string name="local_data">本地数据</string>
     <string name="upload_data">上传数据</string>
     <string name="clear_data">清空数据</string>
+    <string name="student_id">学生考号</string>
 </resources>

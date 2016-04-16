@@ -5,7 +5,21 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+
+import com.google.gson.Gson;
+import com.hou.recruitment.utils.AppUtil;
+import com.hou.recruitment.utils.ResClient;
+import com.hou.recruitment.utils.ToastUtil;
+import com.hou.recruitment.vo.GetStudentResp;
+import com.hou.recruitment.vo.LoginResponse;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
+import java.io.Serializable;
+
+import cz.msebera.android.httpclient.Header;
 
 /**
  * @author Fred Liu(liuxiaokun0410@gmail.com)
@@ -14,8 +28,17 @@ import android.widget.TextView;
  */
 public class WelcomeActivity extends BaseActivity implements View.OnClickListener {
 
+    private TextView mWelcome;
+    private TextView mKcNum;
+    private TextView mSubject;
+
+    private EditText mEditTextStudentId;
+
     private TextView mTvClock;
     private Button mButtonStart;
+    private LoginResponse mLoginResponse;
+
+    private String mExpertId;
     /**
      * Called when the activity is starting.  This is where most initialization
      * should go: calling {@link #setContentView(int)} to inflate the
@@ -45,6 +68,21 @@ public class WelcomeActivity extends BaseActivity implements View.OnClickListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
+
+        mLoginResponse = (LoginResponse) getIntent().getSerializableExtra("data");
+
+        mExpertId = mLoginResponse.getExpert().getExpertId();
+        mWelcome = (TextView) findViewById(R.id.welcome);
+        mWelcome.setText(mWelcome.getText() + mLoginResponse.getExpert().getName());
+
+        mKcNum = (TextView) findViewById(R.id.kcnum);
+        mKcNum.setText(mKcNum.getText()+ mLoginResponse.getExpert().getKcNum());
+
+        mSubject = (TextView) findViewById(R.id.subject);
+        mSubject.setText(mSubject.getText() + mLoginResponse.getExpert().getSubjectName());
+
+        mEditTextStudentId = (EditText) findViewById(R.id.student_id);
+
 
         mButtonStart = (Button) findViewById(R.id.start);
         mButtonStart.setOnClickListener(this);
@@ -78,8 +116,50 @@ public class WelcomeActivity extends BaseActivity implements View.OnClickListene
 
     private void start() {
 
-        Intent intent = new Intent(WelcomeActivity.this, ExamActivity.class);
-        startActivity(intent);
+        String studentId = mEditTextStudentId.getText().toString().trim();
+
+        if(AppUtil.isEmpty(studentId)) {
+            ToastUtil.shortShow(WelcomeActivity.this, "学生考号不能为空!");
+            return;
+        }
+
+        RequestParams params = new RequestParams();
+        params.add("id", studentId);
+        ResClient.getStudentInfo(params, new AsyncHttpResponseHandler() {
+
+
+            /**
+             * Fired when the request is started, override to handle in your own code
+             */
+            @Override
+            public void onStart() {
+                super.onStart();
+                showLoading("正在初始化...", true, null);
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+
+                dismissLoading();
+                String response = new String(responseBody);
+
+                GetStudentResp resp = new Gson().fromJson(response, GetStudentResp.class);
+
+                Intent intent = new Intent(WelcomeActivity.this, ExamActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("data", resp);
+                bundle.putString("expertId", mExpertId);
+                intent.putExtras(bundle);
+                startActivity(intent);
+                finish();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                dismissLoading();
+            }
+        });
+
     }
     class MyCountDownTimer extends CountDownTimer {
 

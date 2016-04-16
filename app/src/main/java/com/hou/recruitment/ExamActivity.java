@@ -1,13 +1,43 @@
 package com.hou.recruitment;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.hou.recruitment.common.Constant;
+import com.hou.recruitment.utils.AppUtil;
+import com.hou.recruitment.utils.ResClient;
+import com.hou.recruitment.utils.ToastUtil;
+import com.hou.recruitment.vo.GetStudentResp;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
+import cz.msebera.android.httpclient.Header;
 
 /**
  * @author Fred Liu(liuxiaokun0410@gmail.com)
  * @version v1.0.0
  * @since 2016-04-13 10:37
  */
-public class ExamActivity extends BaseActivity {
+public class ExamActivity extends BaseActivity implements View.OnClickListener {
+
+    private TextView mTvId;
+
+    private TextView mTvName;
+
+    private EditText mEditFirstScore;
+
+    private EditText mEditFinalScore;
+
+
+    private String mStudentId;
+    private String mExpertId;
+
+    private Button mBtnSubmit;
 
     /**
      * Called when the activity is starting.  This is where most initialization
@@ -38,5 +68,90 @@ public class ExamActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exam);
+
+        GetStudentResp data = (GetStudentResp) getIntent().getSerializableExtra("data");
+
+        mStudentId = data.getStudent().getStudentId();
+
+        mExpertId = getIntent().getStringExtra("expertId");
+
+        mTvId = (TextView) findViewById(R.id.student_id);
+        mTvId.setText(mTvId.getText() + data.getStudent().getStudentId());
+
+        mTvName = (TextView) findViewById(R.id.student_name);
+        mTvName.setText(mTvName.getText() + data.getStudent().getName());
+
+        mBtnSubmit = (Button) findViewById(R.id.submit);
+        mBtnSubmit.setOnClickListener(this);
+
+        mEditFirstScore = (EditText) findViewById(R.id.first_score);
+        mEditFinalScore = (EditText) findViewById(R.id.final_score);
+    }
+
+    private void submit() {
+
+        String firstScore = mEditFirstScore.getText().toString().trim();
+        String finalScore = mEditFinalScore.getText().toString().trim();
+
+
+        if (AppUtil.isEmpty(firstScore)) {
+            Toast.makeText(ExamActivity.this, "印象分不能为空!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (AppUtil.isEmpty(finalScore)) {
+            Toast.makeText(ExamActivity.this, "最终分不能为空!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String url = Constant.SUBMIT_SCORE + mStudentId + "/" + mExpertId + "/" + firstScore + "/" + finalScore;
+
+        Log.d("submit + url: ", url);
+
+        ResClient.submitScore(new RequestParams(), url, new AsyncHttpResponseHandler() {
+
+            /**
+             * Fired when the request is started, override to handle in your own code
+             */
+            @Override
+            public void onStart() {
+                super.onStart();
+                showLoading("正在提交...", true, null);
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                dismissLoading();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                dismissLoading();
+                ToastUtil.shortShow(ExamActivity.this, "数据未提交成功!");
+
+
+            }
+        });
+    }
+
+    /**
+     * Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
+    @Override
+    public void onClick(View v) {
+
+
+        switch (v.getId()) {
+
+            case R.id.submit:
+
+                submit();
+                break;
+
+            default:
+                break;
+        }
     }
 }

@@ -9,6 +9,7 @@ package com.hou.recruitment.utils;
 import android.content.Context;
 
 import com.hou.recruitment.common.Constant;
+import com.hou.recruitment.vo.GetStudentResp;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -18,9 +19,6 @@ import com.loopj.android.http.RequestParams;
 public class ResClient {
 
     private static AsyncHttpClient client;
-
-    private static final String LOGIN_URL = "supplier/login.do";
-
 
     public static void post(RequestParams params, String url,
                             AsyncHttpResponseHandler responseHandler) {
@@ -40,8 +38,17 @@ public class ResClient {
     }
 
 
-    public static void login(RequestParams params,
+    public static void login(RequestParams params, String id,
                              AsyncHttpResponseHandler handler) {
-        get(params, Constant.LOGIN_URL, handler);
+        get(params,Constant.LOGIN_URL + id, handler);
+    }
+
+    public static void getStudentInfo(RequestParams params, AsyncHttpResponseHandler handler) {
+        post(params, Constant.GET_STUDENT_INFO, handler);
+    }
+
+    public static void submitScore(RequestParams params, String url, AsyncHttpResponseHandler handler) {
+
+        get(params, url, handler);
     }
 }
