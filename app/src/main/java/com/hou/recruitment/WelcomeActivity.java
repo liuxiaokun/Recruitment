@@ -151,7 +151,6 @@ public class WelcomeActivity extends BaseActivity implements View.OnClickListene
                 bundle.putString("expertId", mExpertId);
                 intent.putExtras(bundle);
                 startActivity(intent);
-                finish();
             }
 
             @Override

@@ -117,6 +117,7 @@ public class ExamActivity extends BaseActivity implements View.OnClickListener {
             public void onStart() {
                 super.onStart();
                 showLoading("正在提交...", true, null);
+                finish();
             }
 
             @Override

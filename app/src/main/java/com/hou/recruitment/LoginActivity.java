@@ -62,7 +62,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
 
         RequestParams requestParams = new RequestParams();
         requestParams.add("user", userName);
-        requestParams.add("pass", AppUtil.md5(password));
         ResClient.login(requestParams, userName, new AsyncHttpResponseHandler(){
 
             /**
