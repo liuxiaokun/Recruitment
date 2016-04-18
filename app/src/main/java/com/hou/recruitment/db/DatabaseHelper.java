@@ -33,7 +33,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         try {
             TableUtils.createTableIfNotExists(connectionSource, Score.class);
 
-            db.execSQL("INSERT INTO score (student_id, expert_id, first_score, final_score, sync) VALUES('13245790','001', 90, 100, 0)");
+//            db.execSQL("INSERT INTO score (student_id, expert_id, first_score, final_score, sync) VALUES('13245790','001', 90, 100, 0)");
         } catch (SQLException e) {
             e.printStackTrace();
         }
