@@ -8,15 +8,21 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.hou.recruitment.bean.Score;
 import com.hou.recruitment.common.Constant;
+import com.hou.recruitment.db.DatabaseHelper;
 import com.hou.recruitment.utils.AppUtil;
 import com.hou.recruitment.utils.ResClient;
 import com.hou.recruitment.utils.ToastUtil;
 import com.hou.recruitment.vo.GetStudentResp;
+import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
+import java.sql.SQLException;
+
 import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.config.SocketConfig;
 
 /**
  * @author Fred Liu(liuxiaokun0410@gmail.com)
@@ -90,8 +96,8 @@ public class ExamActivity extends BaseActivity implements View.OnClickListener {
 
     private void submit() {
 
-        String firstScore = mEditFirstScore.getText().toString().trim();
-        String finalScore = mEditFinalScore.getText().toString().trim();
+        final String firstScore = mEditFirstScore.getText().toString().trim();
+        final String finalScore = mEditFinalScore.getText().toString().trim();
 
 
         if (AppUtil.isEmpty(firstScore)) {
@@ -129,6 +135,18 @@ public class ExamActivity extends BaseActivity implements View.OnClickListener {
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                 dismissLoading();
                 ToastUtil.shortShow(ExamActivity.this, "数据未提交成功!");
+
+                Score score = new Score();
+                score.setExpertId(mExpertId);
+                score.setStudentId(mStudentId);
+                score.setFirstScore(Integer.parseInt(firstScore));
+                score.setFinalScore(Integer.parseInt(finalScore));
+                DatabaseHelper helper = OpenHelperManager.getHelper(ExamActivity.this, DatabaseHelper.class);
+                try {
+                    helper.getScoreDao().create(score);
+                } catch (SQLException e) {
+                    ToastUtil.shortShow(ExamActivity.this, "本地数据保存失败!");
+                }
 
 
             }

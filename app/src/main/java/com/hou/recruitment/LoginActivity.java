@@ -134,10 +134,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
 
     private void submit() {
 
-
-
-
-
         Intent intent  = new Intent(this, ScoreListActivity.class);
         startActivity(intent);
     }
@@ -149,8 +145,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
      */
     @Override
     public void onClick(View v) {
-
-
 
         switch (v.getId()) {
 

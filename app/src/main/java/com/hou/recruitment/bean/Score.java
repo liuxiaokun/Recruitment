@@ -13,18 +13,45 @@ public class Score {
 
     @DatabaseField(columnName = "id", generatedId = true)
     private Integer id;
-    @DatabaseField(columnName = "name")
-    private String name;
+    @DatabaseField(columnName = "student_id")
+    private String studentId;
+    @DatabaseField(columnName = "expert_id")
+    private String expertId;
     @DatabaseField(columnName = "first_score")
     private int firstScore;
     @DatabaseField(columnName = "final_score")
     private int finalScore;
-    @DatabaseField(columnName = "sync")
+    @DatabaseField(columnName = "sync", defaultValue = "0")
     private int sync;
 
     public Score() {
 
     }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(String studentId) {
+        this.studentId = studentId;
+    }
+
+    public String getExpertId() {
+        return expertId;
+    }
+
+    public void setExpertId(String expertId) {
+        this.expertId = expertId;
+    }
+
     public int getFirstScore() {
         return firstScore;
     }
@@ -41,27 +68,11 @@ public class Score {
         this.finalScore = finalScore;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public int getSync() {
         return sync;
     }
 
     public void setSync(int sync) {
         this.sync = sync;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 }

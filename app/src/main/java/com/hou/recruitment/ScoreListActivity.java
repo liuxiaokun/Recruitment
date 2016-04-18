@@ -4,30 +4,38 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.hou.recruitment.bean.Score;
+import com.hou.recruitment.common.Constant;
 import com.hou.recruitment.db.DatabaseHelper;
+import com.hou.recruitment.utils.ResClient;
+import com.hou.recruitment.utils.ToastUtil;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
 import java.sql.SQLException;
 import java.util.List;
+
+import cz.msebera.android.httpclient.Header;
 
 /**
  * @author Fred Liu(liuxiaokun0410@gmail.com)
  * @version v1.0.0
  * @since 2016-04-13 13:35
  */
-public class ScoreListActivity extends BaseActivity {
+public class ScoreListActivity extends BaseActivity implements View.OnClickListener{
 
     private ScoreAdapter mScoreAdapter;
-
     private ListView mScoreList;
 
 
     private Dao<Score, Integer> mScoreDao;
+    private Button mBtnUploadData;
 
     /**
      * Called when the activity is starting.  This is where most initialization
@@ -65,6 +73,8 @@ public class ScoreListActivity extends BaseActivity {
         DatabaseHelper helper = OpenHelperManager.getHelper(ScoreListActivity.this, DatabaseHelper.class);
         mScoreDao = helper.getScoreDao();
 
+        mBtnUploadData = (Button) findViewById(R.id.upload_data);
+        mBtnUploadData.setOnClickListener(this);
     }
 
 
@@ -101,6 +111,62 @@ public class ScoreListActivity extends BaseActivity {
         mScoreList.setAdapter(mScoreAdapter);
     }
 
+    /**
+     * Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
+    @Override
+    public void onClick(View v) {
+
+
+        switch (v.getId()) {
+
+            case R.id.upload_data:
+
+                try {
+                    List<Score> scores = mScoreDao.queryForEq("sync", 0);
+
+                    if(scores == null || scores.size() == 0) {
+                        ToastUtil.shortShow(ScoreListActivity.this, "没有需要同步的数据!");
+                        return;
+                    }
+                    for (Score score : scores) {
+
+
+                        final Score s = score;
+                        String url = Constant.SUBMIT_SCORE + score.getStudentId() + "/" + score.getExpertId() + "/" + score.getFirstScore() + "/" + score.getFinalScore();
+
+                        ResClient.submitScore(new RequestParams(), url, new AsyncHttpResponseHandler() {
+
+                            @Override
+                            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+
+                                s.setSync(1);
+                                try {
+                                    int update = mScoreDao.update(s);
+                                } catch (SQLException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            @Override
+                            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                                System.out.println(new String(responseBody));
+                            }
+
+                        });
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+
+                break;
+
+            default:
+                break;
+        }
+    }
+
     private class ScoreAdapter extends ArrayAdapter<Score> {
 
         public ScoreAdapter(List<Score> scores) {
@@ -127,9 +193,9 @@ public class ScoreListActivity extends BaseActivity {
 
             Score score = getItem(position);
 
-            viewHolder.mTextViewName.setText(score.getName());
-            viewHolder.mTextViewFirstScore.setText(score.getFirstScore() + "");
-            viewHolder.mTextViewFinalScore.setText(score.getFinalScore() + "");
+            viewHolder.mTextViewName.setText(score.getStudentId());
+            viewHolder.mTextViewFirstScore.setText(String.valueOf(score.getFirstScore()));
+            viewHolder.mTextViewFinalScore.setText(String.valueOf(score.getFinalScore()));
 
             return convertView;
         }

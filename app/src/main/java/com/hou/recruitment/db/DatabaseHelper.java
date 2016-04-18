@@ -33,23 +33,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         try {
             TableUtils.createTableIfNotExists(connectionSource, Score.class);
 
-            db.execSQL("INSERT INTO score (name, first_score, final_score, sync) VALUES('张三1', 90, 100, 0)");
-            db.execSQL("INSERT INTO score (name, first_score, final_score, sync) VALUES('张三2', 90, 100, 0)");
-            db.execSQL("INSERT INTO score (name, first_score, final_score, sync) VALUES('张三3', 90, 100, 0)");
-            db.execSQL("INSERT INTO score (name, first_score, final_score, sync) VALUES('张三4', 90, 100, 0)");
-            db.execSQL("INSERT INTO score (name, first_score, final_score, sync) VALUES('张三5', 90, 100, 0)");
-            db.execSQL("INSERT INTO score (name, first_score, final_score, sync) VALUES('张三6', 90, 100, 0)");
-            db.execSQL("INSERT INTO score (name, first_score, final_score, sync) VALUES('张三7', 90, 100, 0)");
-            db.execSQL("INSERT INTO score (name, first_score, final_score, sync) VALUES('张三8', 90, 100, 0)");
-            db.execSQL("INSERT INTO score (name, first_score, final_score, sync) VALUES('张三9', 90, 100, 0)");
-            db.execSQL("INSERT INTO score (name, first_score, final_score, sync) VALUES('张三11', 90, 100, 0)");
-            db.execSQL("INSERT INTO score (name, first_score, final_score, sync) VALUES('张三12', 90, 100, 0)");
-            db.execSQL("INSERT INTO score (name, first_score, final_score, sync) VALUES('张三13', 90, 100, 0)");
-            db.execSQL("INSERT INTO score (name, first_score, final_score, sync) VALUES('张三14', 90, 100, 0)");
-            db.execSQL("INSERT INTO score (name, first_score, final_score, sync) VALUES('张三15', 90, 100, 0)");
-            db.execSQL("INSERT INTO score (name, first_score, final_score, sync) VALUES('张三16', 90, 100, 0)");
-            db.execSQL("INSERT INTO score (name, first_score, final_score, sync) VALUES('张三17', 90, 100, 0)");
-            db.execSQL("INSERT INTO score (name, first_score, final_score, sync) VALUES('张三18', 90, 100, 0)");
+            db.execSQL("INSERT INTO score (student_id, expert_id, first_score, final_score, sync) VALUES('13245790','001', 90, 100, 0)");
         } catch (SQLException e) {
             e.printStackTrace();
         }

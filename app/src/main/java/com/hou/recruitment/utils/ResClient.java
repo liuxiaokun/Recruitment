@@ -6,14 +6,10 @@ package com.hou.recruitment.utils;
  * @since 2016-04-12 17:19
  */
 
-import android.content.Context;
-
 import com.hou.recruitment.common.Constant;
-import com.hou.recruitment.vo.GetStudentResp;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
-
 
 
 public class ResClient {
@@ -40,7 +36,7 @@ public class ResClient {
 
     public static void login(RequestParams params, String id,
                              AsyncHttpResponseHandler handler) {
-        get(params,Constant.LOGIN_URL + id, handler);
+        get(params, Constant.LOGIN_URL + id, handler);
     }
 
     public static void getStudentInfo(RequestParams params, AsyncHttpResponseHandler handler) {

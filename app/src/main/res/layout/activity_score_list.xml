@@ -29,15 +29,9 @@
         android:layout_height="60dp">
 
         <Button
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:id="@+id/upload_data"
+            android:layout_width="match_parent"
             android:text="@string/upload_data"
             android:layout_height="match_parent"/>
-         <Button
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:text="@string/clear_data"
-            android:layout_height="match_parent"/>
-
     </LinearLayout>
 </RelativeLayout>
