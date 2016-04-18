@@ -151,7 +151,7 @@ public class ScoreListActivity extends BaseActivity implements View.OnClickListe
                             }
                             @Override
                             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                                System.out.println(new String(responseBody));
+                                ToastUtil.shortShow(ScoreListActivity.this, "上传失败, 请检查服务!");
                             }
 
                         });
