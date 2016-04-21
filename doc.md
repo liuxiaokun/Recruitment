@@ -1,6 +1,3 @@
-# Graduation Project of HouGe
-Independent Recruitment System of East China Normal University.
-
 # 华东师范大学自主招生系统
 
 ## 采用的框架
