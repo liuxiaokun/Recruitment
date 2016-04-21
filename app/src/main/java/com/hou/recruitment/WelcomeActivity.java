@@ -141,16 +141,22 @@ public class WelcomeActivity extends BaseActivity implements View.OnClickListene
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
 
                 dismissLoading();
-                String response = new String(responseBody);
 
-                GetStudentResp resp = new Gson().fromJson(response, GetStudentResp.class);
+                try {
+                    String response = new String(responseBody);
 
-                Intent intent = new Intent(WelcomeActivity.this, ExamActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("data", resp);
-                bundle.putString("expertId", mExpertId);
-                intent.putExtras(bundle);
-                startActivity(intent);
+                    GetStudentResp resp = new Gson().fromJson(response, GetStudentResp.class);
+
+                    Intent intent = new Intent(WelcomeActivity.this, ExamActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("data", resp);
+                    bundle.putString("expertId", mExpertId);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                } catch (Exception e) {
+                    ToastUtil.shortShow(WelcomeActivity.this, "服务端数据异常!");
+                }
+
             }
 
             @Override
